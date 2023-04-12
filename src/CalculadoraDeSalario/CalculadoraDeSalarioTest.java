@@ -13,5 +13,12 @@ class CalculadoraDeSalarioTest {
         assertEquals(900.00, calc.calculaSalario(func));
     }
 
+    @Test
+    void test2() {
+        Funcionario func = new Funcionario("Joao", "joao@mail.com", 3000.00, Cargo.DESENVOLVEDOR);
+        CalculadoraDeSalario calc = new CalculadoraDeSalario();
+        assertEquals(2400.00, calc.calculaSalario(func));
+
+    }
 
 }
