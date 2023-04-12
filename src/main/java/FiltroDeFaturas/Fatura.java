@@ -1,8 +1,8 @@
 package FiltroDeFaturas;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Fatura {
 
@@ -39,6 +39,14 @@ public class Fatura {
             return listaDefaturas;
         }
         listaDefaturas.removeIf(fatura -> fatura.getValor() < 2000);
+        listaDefaturas.removeIf(fatura -> (fatura.getValor() >= 2000 && fatura.getValor() < 2500)
+                && (Fatura.getDuracaoDeDias(fatura.getData()) <= 30));
         return listaDefaturas;
+    }
+
+    private static int getDuracaoDeDias(Date data){
+        long diffInMillies = Math.abs((new Date()).getTime() - data.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return (int) diff;
     }
 }
