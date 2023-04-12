@@ -41,6 +41,8 @@ public class Fatura {
         listaDefaturas.removeIf(fatura -> fatura.getValor() < 2000);
         listaDefaturas.removeIf(fatura -> (fatura.getValor() >= 2000 && fatura.getValor() < 2500)
                 && (Fatura.getDuracaoDeDias(fatura.getData()) <= 30));
+        listaDefaturas.removeIf(fatura -> (fatura.getValor() >= 2500 && fatura.getValor() < 3000)
+                && (Fatura.getDuracaoDeDias(fatura.getCliente().getDataDeInclusao()) <= 60));
         return listaDefaturas;
     }
 
