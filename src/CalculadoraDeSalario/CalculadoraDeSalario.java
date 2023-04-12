@@ -2,20 +2,33 @@ package CalculadoraDeSalario;
 
 public class CalculadoraDeSalario {
 
-    public static void main(String[] args) {
-        System.out.println("Hello world2!");
-    }
-
-    public int test(){
-        return 2;
-    }
-
     public double calculaSalario(Funcionario func) {
         if (func.getCargo() == Cargo.DESENVOLVEDOR) {
             if (func.getSalario() >= 3000.0) {
                 return func.getSalario() * 0.8;
             } else {
                 return func.getSalario() * 0.9;
+            }
+        }
+        else if (func.getCargo() == Cargo.DBA) {
+            if (func.getSalario() >= 2000.0) {
+                return func.getSalario() * 0.75;
+            } else {
+                return func.getSalario() * 0.85;
+            }
+        }
+        else if (func.getCargo() == Cargo.TESTADOR) {
+            if (func.getSalario() >= 2000.0) {
+                return func.getSalario() * 0.75;
+            } else {
+                return func.getSalario() * 0.85;
+            }
+        }
+        else if (func.getCargo() == Cargo.GERENTE) {
+            if (func.getSalario() >= 5000.0) {
+                return func.getSalario() * 0.7;
+            } else {
+                return func.getSalario() * 0.8;
             }
         }
         return 0;
