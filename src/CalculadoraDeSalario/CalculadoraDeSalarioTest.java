@@ -8,7 +8,7 @@ class CalculadoraDeSalarioTest {
 
     @Test
     void test1() {
-        Funcionario func = new Funcionario("Joao", "joao@mail.com", "1000.00", Cargo.DESENVOLVEDOR);
+        Funcionario func = new Funcionario("Joao", "joao@mail.com", 1000.00, Cargo.DESENVOLVEDOR);
         CalculadoraDeSalario calc = new CalculadoraDeSalario();
         assertEquals(900.00, calc.calculaSalario(func));
     }

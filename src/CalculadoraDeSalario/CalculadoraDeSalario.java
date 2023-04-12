@@ -10,7 +10,7 @@ public class CalculadoraDeSalario {
         return 2;
     }
 
-    public Double calculaSalario(Funcionario func) {
+    public double calculaSalario(Funcionario func) {
         if (func.getCargo() == Cargo.DESENVOLVEDOR) {
             if (func.getSalario() > 3000.0) {
                 return func.getSalario() * 0.8;
@@ -18,6 +18,7 @@ public class CalculadoraDeSalario {
                 return func.getSalario() * 0.9;
             }
         }
+        return 0;
 
     }
 }
