@@ -1,6 +1,8 @@
 package FiltroDeFaturas;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,5 +23,12 @@ class FaturaTest {
         assertEquals(valor, novaFatura.getValor());
         assertEquals(data, novaFatura.getData());
         assertEquals(cliente, novaFatura.getCliente());
+    }
+
+    @Test
+    void deveriaFiltrarListaDeFaturasVazia(){
+        List<Fatura> faturas = new ArrayList<>();
+        List<Fatura> faturasFiltradas = Fatura.filtroDeFaturas(faturas);
+        assertEquals(faturas, faturasFiltradas);
     }
 }
