@@ -1,5 +1,6 @@
 package FiltroDeFaturas;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +44,9 @@ public class Fatura {
                 && (Fatura.getDuracaoDeDias(fatura.getData()) <= 30));
         listaDefaturas.removeIf(fatura -> (fatura.getValor() >= 2500 && fatura.getValor() < 3000)
                 && (Fatura.getDuracaoDeDias(fatura.getCliente().getDataDeInclusao()) <= 60));
+        String[] estadosDoSul = {"RS", "Rio Grande do Sul", "PR", "Paraná", "SC", "Santa Catarina"};
+        listaDefaturas.removeIf(fatura -> (fatura.getValor() > 4000)
+                && (Arrays.asList(estadosDoSul).contains(fatura.getCliente().getEstado())));
         return listaDefaturas;
     }
 
