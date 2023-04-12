@@ -32,5 +32,13 @@ class FaturaTest {
         assertEquals(faturas, faturasFiltradas);
     }
 
-
+    @Test
+    void deveriaFiltrarFaturasComValoresMenoresQue2000(){
+        List<Fatura> faturas = new ArrayList<>();
+        Fatura faturaMocked = Mockito.mock(Fatura.class);
+        Mockito.when(faturaMocked.getValor()).thenReturn(1999.0);
+        faturas.add(faturaMocked);
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(0, faturasFiltradas.size());
+    }
 }

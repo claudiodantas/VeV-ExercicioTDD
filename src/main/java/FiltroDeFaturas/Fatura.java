@@ -35,10 +35,10 @@ public class Fatura {
     }
 
     public static List<Fatura> filtraFaturas(List<Fatura> listaDefaturas){
-        List<Fatura> faturasFiltradas = new ArrayList<>();
         if (listaDefaturas.size() == 0){
-            faturasFiltradas = listaDefaturas;
+            return listaDefaturas;
         }
-        return faturasFiltradas;
+
+        return null;
     }
 }
