@@ -18,7 +18,7 @@ class FaturaTest {
         Fatura novaFatura = new Fatura(codigo, valor, data, cliente);
 
         assertEquals(codigo, novaFatura.getCodigo());
-        assertEquals(valor, novaftura.getValor());
+        assertEquals(valor, novaFatura.getValor());
         assertEquals(data, novaFatura.getData());
         assertEquals(cliente, novaFatura.getCliente());
     }
