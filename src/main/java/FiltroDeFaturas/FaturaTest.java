@@ -1,5 +1,7 @@
 package FiltroDeFaturas;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,5 +42,29 @@ class FaturaTest {
         faturas.add(faturaMocked);
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(0, faturasFiltradas.size());
+    }
+
+    @Test
+    void deveriaFiltrarFaturasEntre2000e2500ComDataMenorOuIgualADeUmMesAtras() throws ParseException {
+        List<Fatura> faturas = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Fatura faturaComDataMaiorQueUmMes = Mockito.mock(Fatura.class);
+        Date dataMaiorQueUmMes = sdf.parse("12/02/2023");
+        Mockito.when(faturaComDataMaiorQueUmMes.getValor()).thenReturn(2000.0);
+        Mockito.when(faturaComDataMaiorQueUmMes.getData()).thenReturn(dataMaiorQueUmMes);
+
+        Fatura faturaComDataMenorQueUmMes = Mockito.mock(Fatura.class);
+        Date dataMenorQueUmMes = new Date();
+        Mockito.when(faturaComDataMenorQueUmMes.getValor()).thenReturn(2000.0);
+        Mockito.when(faturaComDataMenorQueUmMes.getData()).thenReturn(dataMenorQueUmMes);
+
+        faturas.add(faturaComDataMaiorQueUmMes);
+        faturas.add(faturaComDataMenorQueUmMes);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(1, faturasFiltradas.size());
+        assertEquals(1, faturasFiltradas.size());
+        assertTrue(faturasFiltradas.contains(faturaComDataMaiorQueUmMes));
     }
 }
