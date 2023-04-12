@@ -99,4 +99,29 @@ class FaturaTest {
         assertTrue(faturasFiltradas.contains(faturaComDataClienteMaiorQueDoiMeses));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"RS", "Rio Grande do Sul", "PR", "Paraná", "SC", "Santa Catarina"})
+    void deveriaFiltrarFaturasComValorMaiorQue4000eClienteSulista(String estado) throws ParseException {
+        List<Fatura> faturas = new ArrayList<>();
+
+        Fatura faturaComClienteSulista = Mockito.mock(Fatura.class);
+        Mockito.when(faturaComClienteSulista.getValor()).thenReturn(4001.0);
+        Cliente clienteSulista = Mockito.mock(Cliente.class);
+        Mockito.when(clienteSulista.getEstado()).thenReturn(estado);
+        Mockito.when(faturaComClienteSulista.getCliente()).thenReturn(clienteSulista);
+
+        Fatura faturaComClienteNaoSulista = Mockito.mock(Fatura.class);
+        Mockito.when(faturaComClienteNaoSulista.getValor()).thenReturn(4001.0);
+        Cliente clienteNaoSulista = Mockito.mock(Cliente.class);
+        Mockito.when(clienteNaoSulista.getEstado()).thenReturn("PB");
+        Mockito.when(faturaComClienteNaoSulista.getCliente()).thenReturn(clienteNaoSulista);
+
+        faturas.add(faturaComClienteSulista);
+        faturas.add(faturaComClienteNaoSulista);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(1, faturasFiltradas.size());
+        assertTrue(faturasFiltradas.contains(faturaComClienteNaoSulista));
+    }
+
 }
