@@ -38,7 +38,7 @@ public class Fatura {
         if (listaDefaturas.size() == 0){
             return listaDefaturas;
         }
-
-        return null;
+        listaDefaturas.removeIf(fatura -> fatura.getValor() < 2000);
+        return listaDefaturas;
     }
 }
