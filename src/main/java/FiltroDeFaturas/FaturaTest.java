@@ -68,8 +68,35 @@ class FaturaTest {
 
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(1, faturasFiltradas.size());
-        assertEquals(1, faturasFiltradas.size());
         assertTrue(faturasFiltradas.contains(faturaComDataMaiorQueUmMes));
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {2500.0, 2750.0, 2999.0})
+    void deveriaFiltrarFaturasEntre2500e3000ComDataClienteMenorOuIgualADoisMeses(double valor) throws ParseException {
+        List<Fatura> faturas = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Fatura faturaComDataClienteMaiorQueDoiMeses = Mockito.mock(Fatura.class);
+        Date dataMaiorQueDoisMeses = sdf.parse("01/01/2023");
+        Mockito.when(faturaComDataClienteMaiorQueDoiMeses.getValor()).thenReturn(valor);
+        Cliente clienteDataMaiorQueDoisMeses = Mockito.mock(Cliente.class);
+        Mockito.when(clienteDataMaiorQueDoisMeses.getDataDeInclusao()).thenReturn(dataMaiorQueDoisMeses);
+        Mockito.when(faturaComDataClienteMaiorQueDoiMeses.getCliente()).thenReturn(clienteDataMaiorQueDoisMeses);
+
+        Fatura faturaComDataClienteMenorQueDoiMeses = Mockito.mock(Fatura.class);
+        Date dataMenorQueDoisMeses = new Date();
+        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getValor()).thenReturn(valor);
+        Cliente clienteDataMenorQueDoisMeses = Mockito.mock(Cliente.class);
+        Mockito.when(clienteDataMenorQueDoisMeses.getDataDeInclusao()).thenReturn(dataMenorQueDoisMeses);
+        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getCliente()).thenReturn(clienteDataMenorQueDoisMeses);
+
+        faturas.add(faturaComDataClienteMaiorQueDoiMeses);
+        faturas.add(faturaComDataClienteMenorQueDoiMeses);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(1, faturasFiltradas.size());
+        assertTrue(faturasFiltradas.contains(faturaComDataClienteMaiorQueDoiMeses));
     }
 
 }
