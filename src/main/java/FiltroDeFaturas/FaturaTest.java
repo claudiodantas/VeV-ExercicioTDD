@@ -28,7 +28,9 @@ class FaturaTest {
     @Test
     void deveriaFiltrarListaDeFaturasVazia(){
         List<Fatura> faturas = new ArrayList<>();
-        List<Fatura> faturasFiltradas = Fatura.filtroDeFaturas(faturas);
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(faturas, faturasFiltradas);
     }
+
+
 }

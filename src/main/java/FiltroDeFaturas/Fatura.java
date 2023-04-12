@@ -1,6 +1,8 @@
 package FiltroDeFaturas;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Fatura {
 
@@ -30,5 +32,13 @@ public class Fatura {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public static List<Fatura> filtraFaturas(List<Fatura> listaDefaturas){
+        List<Fatura> faturasFiltradas = new ArrayList<>();
+        if (listaDefaturas.size() == 0){
+            faturasFiltradas = listaDefaturas;
+        }
+        return faturasFiltradas;
     }
 }
