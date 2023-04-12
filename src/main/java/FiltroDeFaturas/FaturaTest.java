@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,29 +36,31 @@ class FaturaTest {
         assertEquals(faturas, faturasFiltradas);
     }
 
-    @Test
-    void deveriaFiltrarFaturasComValoresMenoresQue2000(){
+    @ParameterizedTest
+    @ValueSource(doubles = {1999.0, 1000.0, 100.0, 1.0})
+    void deveriaFiltrarFaturasComValoresMenoresQue2000(double valor){
         List<Fatura> faturas = new ArrayList<>();
         Fatura faturaMocked = Mockito.mock(Fatura.class);
-        Mockito.when(faturaMocked.getValor()).thenReturn(1999.0);
+        Mockito.when(faturaMocked.getValor()).thenReturn(valor);
         faturas.add(faturaMocked);
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(0, faturasFiltradas.size());
     }
 
-    @Test
-    void deveriaFiltrarFaturasEntre2000e2500ComDataMenorOuIgualADeUmMesAtras() throws ParseException {
+    @ParameterizedTest
+    @ValueSource(doubles = {2000.0, 2300.0, 2499.0})
+    void deveriaFiltrarFaturasEntre2000e2500ComDataMenorOuIgualADeUmMesAtras(double valor) throws ParseException {
         List<Fatura> faturas = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         Fatura faturaComDataMaiorQueUmMes = Mockito.mock(Fatura.class);
         Date dataMaiorQueUmMes = sdf.parse("12/02/2023");
-        Mockito.when(faturaComDataMaiorQueUmMes.getValor()).thenReturn(2000.0);
+        Mockito.when(faturaComDataMaiorQueUmMes.getValor()).thenReturn(valor);
         Mockito.when(faturaComDataMaiorQueUmMes.getData()).thenReturn(dataMaiorQueUmMes);
 
         Fatura faturaComDataMenorQueUmMes = Mockito.mock(Fatura.class);
         Date dataMenorQueUmMes = new Date();
-        Mockito.when(faturaComDataMenorQueUmMes.getValor()).thenReturn(2000.0);
+        Mockito.when(faturaComDataMenorQueUmMes.getValor()).thenReturn(valor);
         Mockito.when(faturaComDataMenorQueUmMes.getData()).thenReturn(dataMenorQueUmMes);
 
         faturas.add(faturaComDataMaiorQueUmMes);
@@ -67,4 +71,5 @@ class FaturaTest {
         assertEquals(1, faturasFiltradas.size());
         assertTrue(faturasFiltradas.contains(faturaComDataMaiorQueUmMes));
     }
+
 }
