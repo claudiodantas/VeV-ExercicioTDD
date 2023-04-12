@@ -70,4 +70,12 @@ class CalculadoraDeSalarioTest {
 
     }
 
+    @Test
+    void test9() {
+        Funcionario func = new Funcionario("Joao", "joao@mail.com", 5000.00, Cargo.TESTE);
+        CalculadoraDeSalario calc = new CalculadoraDeSalario();
+        assertEquals(0.00, calc.calculaSalario(func));
+
+    }
+
 }

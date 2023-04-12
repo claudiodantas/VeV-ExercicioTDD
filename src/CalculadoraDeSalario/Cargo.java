@@ -5,4 +5,5 @@ public enum Cargo {
     DBA,
     TESTADOR,
     GERENTE,
+    TESTE
 }
