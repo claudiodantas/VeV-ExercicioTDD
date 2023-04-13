@@ -1,6 +1,10 @@
-# VeV-ExercicioTDD
-Paulo Henrique Ribeiro Medeiros Cruz
---118210460
-Inicialmente tive um pouco de dificuldade pois não conseguia visualizar como montaria a estrutura do código
-mas quando comecei a criar os testes e as estruturas necessarias, notei que o proprio compilador me dava muitas dicas sobre as 
-classes, métodos e tipos que deveria construir, a partir disso, a experiencia fluiu e foi bastante agradável. 
+# Exercício 2 - TDD
+
+## Funcionalidades escolhidas
+
+- Calculadora de Salários - Paulo Henrique Ribeiro Medeiros Cruz
+- Filtro de Faturas - Francicláudio Dantas da Silva
+
+## Experiência da dupla
+
+Inicialmente tivemos um pouco de dificuldade porque nenhum dos dois havia tido experiência com TDD antes. Foi um pouco difícil visualizar como montaríamos a estrutura do código. Mas com o decorrer da implementação dos testes, as estruturas dos códigos foram surgindo de forma cada vez mais fluida. Além disso, o próprio compilador acabava dando algumas dicas do que deveríamos fazer na implementação, com sugestões de classes, métodos e tipos. Conforme as funcionalidades foram sendo implementadas, a experiência com TDD foi ficando cada vez mais agradável e no fim o saldo foi positivo.
