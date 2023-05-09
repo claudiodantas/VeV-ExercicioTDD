@@ -1,43 +1,20 @@
-package FiltroDeFaturas;
+package FiltroDeFaturas.functionalTests;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import org.junit.jupiter.api.Test;
+import FiltroDeFaturas.Cliente;
+import FiltroDeFaturas.Fatura;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import static org.junit.jupiter.api.Assertions.*;
 
-class FaturaTest {
-
-    @Test
-    void deveriaCriarUmaFatura() {
-        int codigo = 1;
-        double valor = 100.50;
-        Date data = new Date();
-        Cliente cliente = Mockito.mock(Cliente.class);
-
-        Fatura novaFatura = new Fatura(codigo, valor, data, cliente);
-
-        assertEquals(codigo, novaFatura.getCodigo());
-        assertEquals(valor, novaFatura.getValor());
-        assertEquals(data, novaFatura.getData());
-        assertEquals(cliente, novaFatura.getCliente());
-    }
-
-    @Test
-    void deveriaFiltrarListaDeFaturasVazia(){
-        List<Fatura> faturas = new ArrayList<>();
-        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
-        assertEquals(faturas, faturasFiltradas);
-    }
+class FunctionalTests {
 
     @ParameterizedTest
-    @ValueSource(doubles = {1999.0, 1000.0, 100.0, 1.0})
+    @ValueSource(doubles = {1999.0, 100.0, 1.0})
     void deveriaFiltrarFaturasComValoresMenoresQue2000(double valor){
         List<Fatura> faturas = new ArrayList<>();
         Fatura faturaMocked = Mockito.mock(Fatura.class);
@@ -48,8 +25,24 @@ class FaturaTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {2000.0, 2300.0, 2499.0})
-    void deveriaFiltrarFaturasEntre2000e2500ComDataMenorOuIgualADeUmMesAtras(double valor) throws ParseException {
+    @ValueSource(doubles = {2000.0, 2000.99, 2300.0, 2499.0})
+    void deveriaFiltrarFaturasEntre2000e2500ComDataMenorOuIgualADeUmMesAtras(double valor) {
+        List<Fatura> faturas = new ArrayList<>();
+
+        Fatura faturaComDataMenorQueUmMes = Mockito.mock(Fatura.class);
+        Date dataMenorQueUmMes = new Date();
+        Mockito.when(faturaComDataMenorQueUmMes.getValor()).thenReturn(valor);
+        Mockito.when(faturaComDataMenorQueUmMes.getData()).thenReturn(dataMenorQueUmMes);
+
+        faturas.add(faturaComDataMenorQueUmMes);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(0, faturasFiltradas.size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {2000.0, 2000.99, 2300.0, 2499.0})
+    void naoDeveriaFiltrarFaturasEntre2000e2500ComDataMaiorADeUmMesAtras(double valor) throws ParseException {
         List<Fatura> faturas = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -58,13 +51,7 @@ class FaturaTest {
         Mockito.when(faturaComDataMaiorQueUmMes.getValor()).thenReturn(valor);
         Mockito.when(faturaComDataMaiorQueUmMes.getData()).thenReturn(dataMaiorQueUmMes);
 
-        Fatura faturaComDataMenorQueUmMes = Mockito.mock(Fatura.class);
-        Date dataMenorQueUmMes = new Date();
-        Mockito.when(faturaComDataMenorQueUmMes.getValor()).thenReturn(valor);
-        Mockito.when(faturaComDataMenorQueUmMes.getData()).thenReturn(dataMenorQueUmMes);
-
         faturas.add(faturaComDataMaiorQueUmMes);
-        faturas.add(faturaComDataMenorQueUmMes);
 
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(1, faturasFiltradas.size());
@@ -72,8 +59,26 @@ class FaturaTest {
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {2500.0, 2750.0, 2999.0})
-    void deveriaFiltrarFaturasEntre2500e3000ComDataClienteMenorOuIgualADoisMeses(double valor) throws ParseException {
+    @ValueSource(doubles = {2500.0, 2500.01, 2750.0, 2999.0})
+    void deveriaFiltrarFaturasEntre2500e3000ComDataClienteMenorOuIgualADoisMeses(double valor) {
+        List<Fatura> faturas = new ArrayList<>();
+
+        Fatura faturaComDataClienteMenorQueDoiMeses = Mockito.mock(Fatura.class);
+        Date dataMenorQueDoisMeses = new Date();
+        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getValor()).thenReturn(valor);
+        Cliente clienteDataMenorQueDoisMeses = Mockito.mock(Cliente.class);
+        Mockito.when(clienteDataMenorQueDoisMeses.getDataDeInclusao()).thenReturn(dataMenorQueDoisMeses);
+        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getCliente()).thenReturn(clienteDataMenorQueDoisMeses);
+
+        faturas.add(faturaComDataClienteMenorQueDoiMeses);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(0, faturasFiltradas.size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {2500.0, 2500.01, 2750.0, 2999.0})
+    void naoDeveriaFiltrarFaturasEntre2500e3000ComDataClienteMaiorQueDoisMeses(double valor) throws ParseException {
         List<Fatura> faturas = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -84,15 +89,7 @@ class FaturaTest {
         Mockito.when(clienteDataMaiorQueDoisMeses.getDataDeInclusao()).thenReturn(dataMaiorQueDoisMeses);
         Mockito.when(faturaComDataClienteMaiorQueDoiMeses.getCliente()).thenReturn(clienteDataMaiorQueDoisMeses);
 
-        Fatura faturaComDataClienteMenorQueDoiMeses = Mockito.mock(Fatura.class);
-        Date dataMenorQueDoisMeses = new Date();
-        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getValor()).thenReturn(valor);
-        Cliente clienteDataMenorQueDoisMeses = Mockito.mock(Cliente.class);
-        Mockito.when(clienteDataMenorQueDoisMeses.getDataDeInclusao()).thenReturn(dataMenorQueDoisMeses);
-        Mockito.when(faturaComDataClienteMenorQueDoiMeses.getCliente()).thenReturn(clienteDataMenorQueDoisMeses);
-
         faturas.add(faturaComDataClienteMaiorQueDoiMeses);
-        faturas.add(faturaComDataClienteMenorQueDoiMeses);
 
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
         assertEquals(1, faturasFiltradas.size());
@@ -101,7 +98,7 @@ class FaturaTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"RS", "Rio Grande do Sul", "PR", "Paraná", "SC", "Santa Catarina"})
-    void deveriaFiltrarFaturasComValorMaiorQue4000eClienteSulista(String estado) throws ParseException {
+    void deveriaFiltrarFaturasComValorMaiorQue4000eClienteSulista(String estado) {
         List<Fatura> faturas = new ArrayList<>();
 
         Fatura faturaComClienteSulista = Mockito.mock(Fatura.class);
@@ -110,13 +107,23 @@ class FaturaTest {
         Mockito.when(clienteSulista.getEstado()).thenReturn(estado);
         Mockito.when(faturaComClienteSulista.getCliente()).thenReturn(clienteSulista);
 
+        faturas.add(faturaComClienteSulista);
+
+        List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);
+        assertEquals(0, faturasFiltradas.size());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"AC", "Acre", "DF", "Distrito Federal", "GO", "Goiás", "PB", "Paraíba", "RJ", "Rio de Janeiro"})
+    void naoDeveriaFiltrarFaturasComValorMaiorQue4000eClienteNaoSulista(String estado) {
+        List<Fatura> faturas = new ArrayList<>();
+
         Fatura faturaComClienteNaoSulista = Mockito.mock(Fatura.class);
         Mockito.when(faturaComClienteNaoSulista.getValor()).thenReturn(4001.0);
         Cliente clienteNaoSulista = Mockito.mock(Cliente.class);
         Mockito.when(clienteNaoSulista.getEstado()).thenReturn("PB");
         Mockito.when(faturaComClienteNaoSulista.getCliente()).thenReturn(clienteNaoSulista);
 
-        faturas.add(faturaComClienteSulista);
         faturas.add(faturaComClienteNaoSulista);
 
         List<Fatura> faturasFiltradas = Fatura.filtraFaturas(faturas);

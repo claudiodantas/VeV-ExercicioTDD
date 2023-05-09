@@ -1,6 +1,8 @@
-package FiltroDeFaturas;
+package FiltroDeFaturas.unitTests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import FiltroDeFaturas.Cliente;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
