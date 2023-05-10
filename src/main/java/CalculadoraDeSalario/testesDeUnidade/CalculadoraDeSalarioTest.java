@@ -1,6 +1,10 @@
-package CalculadoraDeSalario;
+package CalculadoraDeSalario.testesDeUnidade;
 
 import org.junit.jupiter.api.Test;
+
+import CalculadoraDeSalario.CalculadoraDeSalario;
+import CalculadoraDeSalario.Cargo;
+import CalculadoraDeSalario.Funcionario;
 
 import static org.junit.jupiter.api.Assertions.*;
 
